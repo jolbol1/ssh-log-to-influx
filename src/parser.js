@@ -19,10 +19,16 @@ const parseAuthFailedMessage = (message) => {
     message = message.trim();
     console.log(message)
 
-    if(message.startsWith('Accepted')) {
+    if(message.startsWith('Failed')) {
         const regex = /\w+ \w+ \w+ ?\w+ ?\w+ (?<username>\w+) \w+ (?<ip>.*) \w+ (?<port>\w+) \w+/;
         return regex.exec(message)?.groups;
-    } 
+    } else if(message.startsWith('Invalid')) {
+        const regex = /\w+ \w+ (?<username>\w+) \w+ (?<ip>.*) \w+ (?<port>\w+)/;
+        return regex.exec(message)?.groups;
+    } else if(message.startsWith('Disconnected from')) {
+        const regex = /\w+ \w+ \w+ \w+ (?<username>\w+) (?<ip>.*) \w+ (?<port>\w+) .*/;
+        return regex.exec(message)?.groups;
+    }
     return null;
 }
 
